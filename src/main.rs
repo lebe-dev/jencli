@@ -11,6 +11,7 @@ use crate::logging::get_logging_config;
 pub mod logging;
 pub mod config;
 pub mod jenkins;
+pub mod cache;
 
 const LIST_COMMAND: &str = "list";
 const MASK_ARG: &str = "mask";
@@ -23,7 +24,7 @@ const EXIT_CODE: i32 = 1;
 fn main() {
     let matches = Command::new("jencli")
         .about("cli for jenkins")
-        .version("0.1.0")
+        .version("0.2.0")
         .subcommand_required(true)
         .arg_required_else_help(true)
         .subcommand(

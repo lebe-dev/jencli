@@ -15,3 +15,13 @@ Prepare `config.yml` file.
 ```shell
 jencli list [--mask]
 ```
+
+**2. Build job by name**
+
+```shell
+jencli list --name <job-name>
+```
+
+## Cache
+
+List command supports cache. To reset cache remove `cache` directory or content.
