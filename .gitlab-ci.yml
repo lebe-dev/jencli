@@ -8,7 +8,7 @@ build-linux:
   script:
     - 'BIN=target/release/jencli'
     - 'cargo test'
-    - 'cargo build --release'
+    - 'cargo build --release --target x86_64-unknown-linux-gnu'
     - 'eu-elfcompress $BIN'
     - 'strip $BIN'
     - 'upx -9 --lzma $BIN'
