@@ -1,0 +1,45 @@
+stages:
+  - build
+  - deploy
+
+build-linux:
+  stage: build
+
+  script:
+    - 'BIN=target/release/jencli'
+    - 'cargo test'
+    - 'cargo build --release'
+    - 'eu-elfcompress $BIN'
+    - 'strip $BIN'
+    - 'upx -9 --lzma $BIN'
+    - 'cp $BIN jencli'
+
+  artifacts:
+    name: jencli-linux
+    paths:
+      - jencli
+      - README.md
+      - config.yml-dist
+    expire_in: 1 week
+
+  tags:
+    - rhel8
+
+build-windows:
+  stage: build
+
+  script:
+    - cargo test
+    - cargo build --release
+    - copy target/release/jencli.exe ./jencli.exe
+
+  artifacts:
+    name: jencli-windows
+    paths:
+      - jencli.exe
+      - README.md
+      - config.yml-dist
+    expire_in: 1 week
+
+  tags:
+    - windows
