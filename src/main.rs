@@ -5,8 +5,8 @@ use anyhow::Context;
 use clap::{Arg, ArgAction, Command};
 use reqwest::blocking::ClientBuilder;
 
-use crate::config::load_config_from_file;
-use crate::jenkins::build::rebuild_job;
+use crate::config::file::load_config_from_file;
+use crate::jenkins::build::build_job;
 use crate::jenkins::list::{get_jenkins_job_list, JenkinsJob};
 use crate::logging::get_logging_config;
 
@@ -64,7 +64,8 @@ fn main() {
         Some((LIST_COMMAND, list_matches)) => {
             let config_file_path = Path::new("config.yml");
 
-            let config = load_config_from_file(&config_file_path).expect("unable to load config from file");
+            let config = load_config_from_file(&config_file_path)
+                .expect("unable to load config from file");
 
             let client = ClientBuilder::new().build()
                 .expect("unable to build http client");
@@ -80,13 +81,20 @@ fn main() {
                             .filter(|j|
                             j.name.to_lowercase().contains(mask)).collect::<Vec<JenkinsJob>>();
 
-                        let json = serde_json::to_string(&job_list).expect("unable to serialize results");
+                        let json = serde_json::to_string(&job_list)
+                            .expect("unable to serialize results");
 
                         println!("{json}");
 
                     } else {
 
-                        let json = serde_json::to_string(&job_list).expect("unable to serialize results");
+                        let job_list = job_list.into_iter()
+                            .filter(|j|
+                                !config.list.exclude.contains(&j.name))
+                            .collect::<Vec<JenkinsJob>>();
+
+                        let json = serde_json::to_string(&job_list)
+                            .expect("unable to serialize results");
 
                         println!("{json}");
                     }
@@ -105,12 +113,13 @@ fn main() {
 
                 let config_file_path = Path::new("config.yml");
 
-                let config = load_config_from_file(&config_file_path).expect("unable to load config from file");
+                let config = load_config_from_file(&config_file_path)
+                    .expect("unable to load config from file");
 
                 let client = ClientBuilder::new().build()
                     .expect("unable to build http client");
 
-                match rebuild_job(&client, &config.jenkins_url, &config.username, &config.token, job_name) {
+                match build_job(&client, &config.jenkins_url, &config.username, &config.token, job_name) {
                     Ok(_) => println!("rebuild successfully executed"),
                     Err(e) => {
                         eprintln!("error: {}", e);

@@ -9,8 +9,8 @@ use urlencoding::encode;
 
 use crate::jenkins::auth::{get_crumb_issuer, JenkinsCrumbIssuer};
 
-pub fn rebuild_job(client: &Client, jenkins_url: &str, username: &str, token: &str, job_name: &str) -> anyhow::Result<()> {
-    info!("attempt to rebuild job '{job_name}' at '{jenkins_url}'..");
+pub fn build_job(client: &Client, jenkins_url: &str, username: &str, token: &str, job_name: &str) -> anyhow::Result<()> {
+    info!("attempt to build job '{job_name}' at '{jenkins_url}'..");
 
     info!("getting latest build information..");
 
@@ -28,7 +28,6 @@ pub fn rebuild_job(client: &Client, jenkins_url: &str, username: &str, token: &s
 
     info!("url '{url}'");
 
-    info!("executing rebuild for job '{job_name}'..");
     let resp = client.post(url).basic_auth(&username, Some(token)).send()?;
 
     let status = resp.status();
@@ -36,7 +35,7 @@ pub fn rebuild_job(client: &Client, jenkins_url: &str, username: &str, token: &s
     info!("server response: {}", status);
 
     if status == StatusCode::CREATED {
-        info!("rebuild for job '{job_name}' successfully executed");
+        info!("build for job '{job_name}' successfully executed");
         Ok(())
 
     } else {

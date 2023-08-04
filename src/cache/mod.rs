@@ -1,7 +1,9 @@
 use std::fs;
 use std::path::Path;
+
 use log::debug;
 use serde::{Deserialize, Serialize};
+
 use crate::jenkins::list::JenkinsJob;
 
 const CACHE_DIR: &str = "cache";
@@ -49,7 +51,9 @@ pub fn load_job_list_from_cache() -> anyhow::Result<Vec<JenkinsJob>> {
 mod tests {
     use std::fs;
     use std::path::Path;
+
     use fake::{Fake, Faker};
+
     use crate::cache::{CACHE_DIR, load_job_list_from_cache, save_job_list_in_cache};
     use crate::jenkins::list::JenkinsJob;
 
@@ -81,7 +85,7 @@ mod tests {
         let cache_path = Path::new(CACHE_DIR);
 
         if cache_path.exists() {
-            fs::remove_dir(&cache_path).unwrap();
+            fs::remove_dir_all(&cache_path).unwrap();
         }
     }
 

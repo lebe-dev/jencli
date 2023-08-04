@@ -1,3 +1,12 @@
-jenkins-url: ''
-username: ''
-token: ''
+jenkins-url: 'https://jenkins.company.com'
+username: 'username'
+
+# Create in user profile
+token: 'token'
+
+list:
+  # Exclude from list command output
+  exclude:
+    - 'PROD-'
+    - 'STAGING-'
+    - 'TEST-'

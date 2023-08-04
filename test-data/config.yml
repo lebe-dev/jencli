@@ -1,3 +1,9 @@
 jenkins-url: 'https://jenkins.company.com'
 username: 'dirk-gently'
 token: '113451439abdecb02af1e7064387666458'
+
+list:
+  exclude:
+    - 'PROD-'
+    - 'STAGING-'
+    - 'TEST-'
