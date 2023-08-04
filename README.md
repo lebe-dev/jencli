@@ -35,6 +35,6 @@ list:
 jencli build --name <job-name>
 ```
 
-## Cache
+## Performance
 
-List command supports cache. To reset cache remove `cache` directory or content.
+List command uses cache. To reset cache remove `cache` directory or content.
