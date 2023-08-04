@@ -20,6 +20,7 @@ build-linux:
       - jencli
       - README.md
       - config.yml-dist
+      - jencli.sh
     expire_in: 1 week
 
   tags:
