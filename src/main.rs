@@ -1,8 +1,10 @@
 use std::path::Path;
 use std::process::exit;
+
 use anyhow::Context;
 use clap::{Arg, ArgAction, Command};
 use reqwest::blocking::ClientBuilder;
+
 use crate::config::load_config_from_file;
 use crate::jenkins::list::{get_jenkins_job_list, JenkinsJob};
 use crate::jenkins::rebuild::rebuild_job;
@@ -24,7 +26,7 @@ const EXIT_CODE: i32 = 1;
 fn main() {
     let matches = Command::new("jencli")
         .about("cli for jenkins")
-        .version("0.2.0")
+        .version("0.3.0")
         .subcommand_required(true)
         .arg_required_else_help(true)
         .subcommand(
