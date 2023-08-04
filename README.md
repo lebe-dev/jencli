@@ -9,7 +9,8 @@ The most frictionless way is to use terminal.
 
 ## How to use
 
-Prepare `config.yml` file.
+Put credentials into `config.yml` file and use commands. Script `jencli.sh` provides an example of usage 
+with [fzf](https://github.com/junegunn/fzf).
 
 ### 1. List jenkins jobs
 
