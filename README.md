@@ -38,3 +38,7 @@ jencli build --name <job-name>
 ## Performance
 
 List command uses cache. To reset cache remove `cache` directory or content.
+
+## Roadmap
+
+1. Get job console log
