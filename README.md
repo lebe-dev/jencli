@@ -19,7 +19,7 @@ jencli list [--mask]
 **2. Build job by name**
 
 ```shell
-jencli list --name <job-name>
+jencli build --name <job-name>
 ```
 
 ## Cache
