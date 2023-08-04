@@ -1,7 +1,7 @@
 jenkins-url: 'https://jenkins.company.com'
 username: 'username'
 
-# Create in user profile
+# Create in user profile, DON'T USE PASSWORD /!\
 token: 'token'
 
 list:
