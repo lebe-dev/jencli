@@ -1,4 +1,4 @@
 pub mod list;
-pub mod rebuild;
+pub mod build;
 pub mod auth;
 

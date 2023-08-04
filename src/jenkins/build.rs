@@ -6,6 +6,7 @@ use reqwest::blocking::Client;
 use reqwest::StatusCode;
 use serde::{Deserialize, Deserializer, Serialize};
 use urlencoding::encode;
+
 use crate::jenkins::auth::{get_crumb_issuer, JenkinsCrumbIssuer};
 
 pub fn rebuild_job(client: &Client, jenkins_url: &str, username: &str, token: &str, job_name: &str) -> anyhow::Result<()> {
@@ -147,7 +148,7 @@ fn str_or_bool<'de, D>(deserializer: D) -> Result<String, D::Error>
 
 #[cfg(test)]
 mod params_deserialization_tests {
-    use crate::jenkins::rebuild::JenkinsBuildParam;
+    use crate::jenkins::build::JenkinsBuildParam;
 
     #[test]
     fn test_for_boolean() {

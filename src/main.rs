@@ -6,8 +6,8 @@ use clap::{Arg, ArgAction, Command};
 use reqwest::blocking::ClientBuilder;
 
 use crate::config::load_config_from_file;
+use crate::jenkins::build::rebuild_job;
 use crate::jenkins::list::{get_jenkins_job_list, JenkinsJob};
-use crate::jenkins::rebuild::rebuild_job;
 use crate::logging::get_logging_config;
 
 pub mod logging;
@@ -18,7 +18,7 @@ pub mod cache;
 const LIST_COMMAND: &str = "list";
 const MASK_ARG: &str = "mask";
 
-const REBUILD_COMMAND: &str = "rebuild";
+const BUILD_COMMAND: &str = "build";
 const NAME_ARG: &str = "name";
 
 const EXIT_CODE: i32 = 1;
@@ -43,10 +43,10 @@ fn main() {
                 )
         )
         .subcommand(
-            Command::new(REBUILD_COMMAND)
+            Command::new(BUILD_COMMAND)
                 .short_flag('r')
-                .long_flag(REBUILD_COMMAND)
-                .about("start rebuild for job")
+                .long_flag(BUILD_COMMAND)
+                .about("start build for job")
                 .arg(
                     Arg::new(NAME_ARG)
                         .short('n')
@@ -99,7 +99,7 @@ fn main() {
                 }
             }
         }
-        Some((REBUILD_COMMAND, rebuild_matches)) => {
+        Some((BUILD_COMMAND, rebuild_matches)) => {
             if let Some(job_name) = rebuild_matches.get_one::<String>(NAME_ARG) {
                 println!("rebuilding job '{NAME_ARG}'...");
 
