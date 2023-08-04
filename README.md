@@ -1,6 +1,6 @@
 # jencli
 
-Some weird CLI tool for Jenkins.
+CLI tool for Jenkins.
 
 ## Why?
 
@@ -10,7 +10,7 @@ The most frictionless way is to use terminal.
 ## How to use
 
 Put credentials into `config.yml` file and use commands. Script `jencli.sh` provides an example of usage 
-with [fzf](https://github.com/junegunn/fzf).
+with [fzf](https://github.com/junegunn/fzf) and [jq](https://github.com/jqlang/jq).
 
 ### 1. List jenkins jobs
 
