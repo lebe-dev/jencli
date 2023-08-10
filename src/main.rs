@@ -1,8 +1,10 @@
+use std::env;
 use std::path::Path;
 use std::process::exit;
 
 use anyhow::Context;
-use clap::{Arg, ArgAction, Command};
+use clap::{Arg, ArgAction, ArgMatches, Command};
+use log::info;
 use reqwest::blocking::ClientBuilder;
 
 use crate::config::file::load_config_from_file;
@@ -14,6 +16,9 @@ pub mod logging;
 pub mod config;
 pub mod jenkins;
 pub mod cache;
+
+const WORK_DIR_ARG: &str = "work-dir";
+const WORK_DIR_SHORT_ARG: char = 'd';
 
 const LIST_COMMAND: &str = "list";
 const MASK_ARG: &str = "mask";
@@ -29,6 +34,12 @@ fn main() {
         .version("0.4.0")
         .subcommand_required(true)
         .arg_required_else_help(true)
+        .arg(
+            Arg::new(WORK_DIR_ARG)
+                .short(WORK_DIR_SHORT_ARG)
+                .action(ArgAction::Set)
+                .help("set working directory"),
+        )
         .subcommand(
             Command::new(LIST_COMMAND)
                 .short_flag('l')
@@ -59,6 +70,8 @@ fn main() {
         .get_matches();
 
     init_logging("info").expect("unable to init logging subsystem");
+
+    init_working_dir(&matches);
 
     match matches.subcommand() {
         Some((LIST_COMMAND, list_matches)) => {
@@ -141,4 +154,30 @@ fn init_logging(logging_level: &str) -> anyhow::Result<()> {
     let logging_config = get_logging_config(logging_level);
     log4rs::init_config(logging_config).context("unable to init logging subsystem")?;
     Ok(())
+}
+
+fn init_working_dir(matches: &ArgMatches) {
+    let working_directory: &Path = get_argument_path_value(
+        &matches, WORK_DIR_ARG, WORK_DIR_SHORT_ARG, ".");
+
+    info!("working directory '{}'", &working_directory.display());
+
+    env::set_current_dir(&working_directory).expect("couldn't set working directory");
+}
+
+fn get_argument_path_value<'a>(matches: &'a ArgMatches, long_argument: &str,
+                               short_argument: char, default_path: &'a str) -> &'a Path {
+    let mut path: &Path = Path::new(default_path);
+
+    match matches.get_one::<String>(long_argument) {
+        Some(value) => path = Path::new(value),
+        None => {}
+    }
+
+    match matches.get_one::<String>(&short_argument.to_string()) {
+        Some(value) => path = Path::new(value),
+        None => {}
+    }
+
+    path
 }
