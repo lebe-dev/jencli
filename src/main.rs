@@ -87,6 +87,11 @@ fn main() {
                                        &config.username, &config.token) {
                 Ok(job_list) => {
 
+                    let job_list = job_list.into_iter()
+                        .filter(|j|
+                            !config.list.exclude.contains(&j.name))
+                        .collect::<Vec<JenkinsJob>>();
+
                     if let Some(mask) = list_matches
                         .get_one::<String>(MASK_ARG) {
 
@@ -100,11 +105,6 @@ fn main() {
                         println!("{json}");
 
                     } else {
-
-                        let job_list = job_list.into_iter()
-                            .filter(|j|
-                                !config.list.exclude.contains(&j.name))
-                            .collect::<Vec<JenkinsJob>>();
 
                         let json = serde_json::to_string(&job_list)
                             .expect("unable to serialize results");
