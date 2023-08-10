@@ -26,7 +26,7 @@ const EXIT_CODE: i32 = 1;
 fn main() {
     let matches = Command::new("jencli")
         .about("cli for jenkins")
-        .version("0.3.0")
+        .version("0.4.0")
         .subcommand_required(true)
         .arg_required_else_help(true)
         .subcommand(
