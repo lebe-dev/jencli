@@ -7,10 +7,19 @@ CLI tool for Jenkins.
 We have Jenkins `1.204.x` instance with 150+ jobs, `jcli` isn't compatible, `jenkins-cli.jar` doesn't work :D.
 The most frictionless way is to use terminal.
 
-## How to use
+## Install
 
-Put credentials into `config.yml` file and use commands. Script `jencli.sh` provides an example of usage 
+```shell
+unzip jencli-v0.4.0-linux_x86_64.zip -d /opt/jencli && /opt/jencli
+ln -fs /opt/jencli/jencli /usr/bin/jencli 
+
+cp config.yml-dist config.yml
+```
+
+Script `jencli.sh` provides an example of usage 
 with [fzf](https://github.com/junegunn/fzf) and [jq](https://github.com/jqlang/jq).
+
+## How to use
 
 ### 1. List jenkins jobs
 
