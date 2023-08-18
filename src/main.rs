@@ -89,28 +89,30 @@ fn main() {
 
                     let job_list = job_list.into_iter()
                         .filter(|j|
-                            !config.list.exclude.contains(&j.name))
+                            !config.list.exclude.iter()
+                            .find(|e|j.name.contains(*e)).is_some())
                         .collect::<Vec<JenkinsJob>>();
 
-                    if let Some(mask) = list_matches
+                    let json = if let Some(mask) = list_matches
                         .get_one::<String>(MASK_ARG) {
+
+                        let mask = mask.to_lowercase();
 
                         let job_list = job_list.into_iter()
                             .filter(|j|
-                            j.name.to_lowercase().contains(mask)).collect::<Vec<JenkinsJob>>();
+                            j.name.to_lowercase()
+                            .contains(&mask)).collect::<Vec<JenkinsJob>>();
 
-                        let json = serde_json::to_string(&job_list)
-                            .expect("unable to serialize results");
-
-                        println!("{json}");
+                        serde_json::to_string(&job_list)
+                            .expect("unable to serialize results")
 
                     } else {
 
-                        let json = serde_json::to_string(&job_list)
-                            .expect("unable to serialize results");
+                        serde_json::to_string(&job_list)
+                            .expect("unable to serialize results")
+                    };
 
-                        println!("{json}");
-                    }
+                    println!("{json}");
 
                 }
                 Err(e) => {

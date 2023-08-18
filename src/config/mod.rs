@@ -1,6 +1,5 @@
 use std::fmt::{Display, Formatter};
 
-use anyhow::Context;
 use serde::Deserialize;
 
 pub mod file;
