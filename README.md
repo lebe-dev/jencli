@@ -11,13 +11,12 @@ The most frictionless way is to use terminal.
 
 ```shell
 unzip jencli-v0.4.0-linux_x86_64.zip -d /opt/jencli && /opt/jencli
-ln -fs /opt/jencli/jencli /usr/bin/jencli 
+ln -fs /opt/jencli/jencli /usr/bin/jencli
 
 cp config.yml-dist config.yml
 ```
 
-Script `jencli.sh` provides an example of usage 
-with [fzf](https://github.com/junegunn/fzf) and [jq](https://github.com/jqlang/jq).
+Script `jencli.sh` provides an example of usage with [fzf](https://github.com/junegunn/fzf) and [jq](https://github.com/jqlang/jq).
 
 ## How to use
 
